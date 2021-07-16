@@ -9,7 +9,8 @@ os.system("cd")
 print(sys.base_prefix)
 print(cv2)
 
-path = "C:\\Users\\junichi doi\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\cv2\\data\\"
+# path = "C:\\Users\\junichi doi\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\cv2\\data\\" #自宅用
+path = "C:\\Users\\e12503\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\cv2\\data\\" # 会社用
 face_cascade_path = path + "haarcascade_frontalface_default.xml"
 eye_cascade_path = path + "haarcascade_eye.xml"
 face_cascade = cv2.CascadeClassifier(face_cascade_path)
@@ -31,8 +32,10 @@ while 1:
         face = frame[y: y + h, x: x + w]
         face_gray = frame_g[y: y + h, x: x + w]
         eyes = eye_cascade.detectMultiScale(face_gray)
+        print("顔ある")
         for (ex, ey, ew, eh) in eyes:
             cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+            print("目もある")
 
     cv2.imshow("image", frame)
     if cv2.waitKey(1) & 0xFF == ord("q"): #waitkeyの引数はキーボードからの入力待ち時間。この時間で再度read()されるまでの時間を調整できる
