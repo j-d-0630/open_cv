@@ -13,8 +13,10 @@ print(cv2)
 path = "C:\\Users\\e12503\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\cv2\\data\\" # 会社用
 face_cascade_path = path + "haarcascade_frontalface_default.xml"
 eye_cascade_path = path + "haarcascade_eye.xml"
+mouth_cascade_path = path + "haarcascade_mcs_mouth.xml"
 face_cascade = cv2.CascadeClassifier(face_cascade_path)
 eye_cascade = cv2.CascadeClassifier(eye_cascade_path)
+mouth_cascade = cv2.CascadeClassifier(mouth_cascade_path)
 
 # VideoCaptureオブジェクト取得
 capture = cv2.VideoCapture(0) # 引数は接続されてるカメラの番号
@@ -25,17 +27,26 @@ while 1:
     # frame = lena
     frame_g = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(frame_g)
+    cv2.putText(frame, 'look at a camera!', (10,30), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), thickness=2)
 
     # 【AI】顔の中に目（と口）がある場合に人と認識するに改良する
     for x, y, w, h in faces:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        # cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face = frame[y: y + h, x: x + w]
         face_gray = frame_g[y: y + h, x: x + w]
+        face_gray2 = frame_g[y: y + h, x: x + w]
         eyes = eye_cascade.detectMultiScale(face_gray)
-        print("顔ある")
+        # print("顔ある")
         for (ex, ey, ew, eh) in eyes:
-            cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
-            print("目もある")
+            # print("目もある")
+            mouths = mouth_cascade.detectMultiScale(face_gray2)
+            for (mx, my, mw, mh) in mouths:
+                cv2.putText(frame, 'Not masked!!', (x + mx, y + my), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), thickness=2)
+                # print("口もある")
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+                cv2.rectangle(face, (mx, my), (mx + mw, my + mh), (255, 255, 255), 2)
+
 
     cv2.imshow("image", frame)
     if cv2.waitKey(1) & 0xFF == ord("q"): #waitkeyの引数はキーボードからの入力待ち時間。この時間で再度read()されるまでの時間を調整できる
