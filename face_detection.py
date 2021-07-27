@@ -33,8 +33,9 @@ while 1:
     for x, y, w, h in faces:
         # cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face = frame[y: y + h, x: x + w]
+        face2 = frame[y + h//2: y + h, x: x + w]
         face_gray = frame_g[y: y + h, x: x + w]
-        face_gray2 = frame_g[y: y + h, x: x + w]
+        face_gray2 = frame_g[y + h//2: y + h, x: x + w]
         eyes = eye_cascade.detectMultiScale(face_gray)
         # print("顔ある")
         for (ex, ey, ew, eh) in eyes:
@@ -45,7 +46,7 @@ while 1:
                 # print("口もある")
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                 cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
-                cv2.rectangle(face, (mx, my), (mx + mw, my + mh), (255, 255, 255), 2)
+                cv2.rectangle(face2, (mx, my), (mx + mw, my + mh), (255, 255, 255), 2)
 
 
     cv2.imshow("image", frame)
