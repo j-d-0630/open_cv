@@ -33,7 +33,7 @@ while 1:
     for x, y, w, h in faces:
         # cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face = frame[y: y + h, x: x + w]
-        face2 = frame[y + h//2: y + h, x: x + w]
+        face2 = frame[y + h//2 + 15: y + h, x: x + w]
         face_gray = frame_g[y: y + h, x: x + w]
         face_gray2 = frame_g[y + h//2: y + h, x: x + w]
         eyes = eye_cascade.detectMultiScale(face_gray)
