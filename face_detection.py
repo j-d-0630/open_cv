@@ -33,19 +33,20 @@ while 1:
     for x, y, w, h in faces:
         # cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face = frame[y: y + h, x: x + w]
-        face2 = frame[y + h//2 + 15: y + h, x: x + w]
-        face_gray = frame_g[y: y + h, x: x + w]
-        face_gray2 = frame_g[y + h//2: y + h, x: x + w]
-        eyes = eye_cascade.detectMultiScale(face_gray)
+        face1 = frame[y: y + h//2 - 0, x: x + w] # 目を探す範囲を顔の上半分に限定
+        face2 = frame[y + h//2 + 35: y + h, x: x + w] # 口を探す範囲を顔の下半分に限定
+        face_gray1 = frame_g[y: y + h//2 - 0, x: x + w]
+        face_gray2 = frame_g[y + h//2 + 35: y + h, x: x + w]
+        eyes = eye_cascade.detectMultiScale(face_gray1)
         # print("顔ある")
         for (ex, ey, ew, eh) in eyes:
             # print("目もある")
             mouths = mouth_cascade.detectMultiScale(face_gray2)
             for (mx, my, mw, mh) in mouths:
-                cv2.putText(frame, 'Not masked!!', (x + mx, y + my), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), thickness=2)
+                cv2.putText(face2, 'Not masked!!', (mx, my), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), thickness=2)
                 # print("口もある")
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+                cv2.rectangle(face1, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
                 cv2.rectangle(face2, (mx, my), (mx + mw, my + mh), (255, 255, 255), 2)
 
 
