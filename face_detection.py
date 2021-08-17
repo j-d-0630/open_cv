@@ -4,6 +4,11 @@
 import os
 import cv2
 import sys
+import time # バッチ処理用
+import datetime # 生成するファイル名を現在時刻にするために使用
+import json
+import base64 # エンコード binary => base64
+import boto3
 
 os.system("cd")
 print(sys.base_prefix)
