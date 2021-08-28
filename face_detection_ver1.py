@@ -89,7 +89,7 @@ while 1:
         #Send to AWS IOR CORE
         date = str(datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))))
         result = detect_flg
-        message = {"detection_result" : [date,result]} # {日本時刻,顔検出結果}を格納
+        message = {"time":date,"detection_result":result} # {日本時刻,顔検出結果}を格納
         mqtt_connection.publish(topic=TOPIC, payload=json.dumps(message), qos=mqtt.QoS.AT_LEAST_ONCE)
         print("Published: '" + json.dumps(message) + "' to the topic: " + "'face_detection/testing'")
         t.sleep(0.1)
@@ -99,7 +99,7 @@ while 1:
     #Send to AWS IOR CORE
     date = str(datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))))
     result = detect_flg
-    message = {"detection_result" : [date,result]} # {日本時刻,顔検出結果}を格納
+    message = {"time":date,"detection_result":result} # {日本時刻,顔検出結果}を格納
     mqtt_connection.publish(topic=TOPIC, payload=json.dumps(message), qos=mqtt.QoS.AT_LEAST_ONCE)
     print("Published: '" + json.dumps(message) + "' to the topic: " + "'face_detection/testing'")
     t.sleep(0.1)
