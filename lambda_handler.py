@@ -11,10 +11,11 @@ def lambda_handler(event, context):
     bucket = "for-face-detection-1"
     key = "data/" + "detection_result" + ".txt"
     
-    file_contents = "検出待ち"
+    
     if event["detection_result"] == 0:
         file_contents = "{} : 不在！".format(event["time"])
     else:
+        last_detect = event["time"]
         file_contents = "{} : ちゃんと勉強してますね！".format(event["time"])
 
     obj = s3.Object(bucket,key)
