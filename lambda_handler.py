@@ -15,11 +15,10 @@ def lambda_handler(event, context):
     if event["detection_result"] == 0:
         file_contents = "{} : 不在！".format(event["time"])
     else:
-        last_detect = event["time"]
         file_contents = "{} : ちゃんと勉強してますね！".format(event["time"])
 
     obj = s3.Object(bucket,key)
-    obj.put(Body=file_contents)
+    obj.put(Body=file_contents, ContentType="text/plain")
     
     return {
         'statusCode': 200,
